@@ -1,4 +1,4 @@
-package com.vet.clinic.app.protocol.http.pet;
+package com.vet.clinic.app.protocol.rest.pet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

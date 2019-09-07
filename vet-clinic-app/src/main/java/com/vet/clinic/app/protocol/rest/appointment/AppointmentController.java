@@ -1,4 +1,4 @@
-package com.vet.clinic.app.protocol.http.appointment;
+package com.vet.clinic.app.protocol.rest.appointment;
 
 import java.util.List;
 
