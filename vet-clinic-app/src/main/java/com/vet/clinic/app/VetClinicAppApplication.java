@@ -12,8 +12,8 @@ import com.vet.clinic.app.domain.appointment.AppointmentRepository;
 import com.vet.clinic.app.domain.pet.Pet;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
-import com.vet.clinic.app.domain.provider.Provider;
-import com.vet.clinic.app.domain.provider.ProviderRepository;
+import com.vet.clinic.app.domain.veterinarian.Veterinarian;
+import com.vet.clinic.app.domain.veterinarian.VeterinarianRepository;
 
 @SpringBootApplication
 public class VetClinicAppApplication implements CommandLineRunner{
@@ -25,7 +25,7 @@ public class VetClinicAppApplication implements CommandLineRunner{
 	private PetOwnerRepository petOwnerRepository;
 	
 	@Autowired
-	private ProviderRepository providerRepository;
+	private VeterinarianRepository veterinarianRepository;
 	
 	
 	public static void main(String[] args) {
@@ -35,12 +35,12 @@ public class VetClinicAppApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		
-		Provider john = new Provider();
+		Veterinarian john = new Veterinarian();
 		john.setFirstName("john");
 		john.setFirstName("john-j");
 		john.setEmail("hdsjhkjj@gmail.com");
 		john.setPhoneNumber("903-25753");
-		providerRepository.save(john);
+		veterinarianRepository.save(john);
 		
 		PetOwner owner = new PetOwner();
 		owner.setFirstName("mike");

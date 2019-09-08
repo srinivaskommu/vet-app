@@ -1,0 +1,19 @@
+{
+  "name": "vet-clinic-webapp",
+  "version": "1.0.0",
+  "description": "vet service providers app",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.production.js",
+    "dev": "webpack-dev-server --open --config webpack.config.dev.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8",
+    "webpack-dev-server": "^3.8.0",
+    "webpack-merge": "^4.2.2"
+  }
+}

@@ -1,4 +1,4 @@
-package com.vet.clinic.app.domain.provider;
+package com.vet.clinic.app.domain.veterinarian;
 
 import java.util.Set;
 
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Provider extends BaseEntity
+public class Veterinarian extends BaseEntity
 {
 
 	/**

@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.pet.Pet;
-import com.vet.clinic.app.domain.provider.Provider;
+import com.vet.clinic.app.domain.veterinarian.Veterinarian;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,7 +43,7 @@ public class Appointment extends BaseEntity
 	private Pet pet;
 	
 	@OneToOne
-	private Provider provider;
+	private Veterinarian veterinarian;
 	
 	
 }
