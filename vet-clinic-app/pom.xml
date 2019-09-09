@@ -62,6 +62,16 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency> -->
+<dependency>
+    <groupId>org.zalando</groupId>
+    <artifactId>problem-spring-web</artifactId>
+    <version>0.25.0</version>
+</dependency>
+<dependency>
+    <groupId>io.github.jhipster</groupId>
+    <artifactId>jhipster-framework</artifactId>
+    <version>3.0.4</version>
+</dependency>
 	</dependencies>
 
 	<build>

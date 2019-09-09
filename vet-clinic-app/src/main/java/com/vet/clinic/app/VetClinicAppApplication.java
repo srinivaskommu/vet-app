@@ -43,18 +43,17 @@ public class VetClinicAppApplication implements CommandLineRunner{
 		veterinarianRepository.save(john);
 		
 		PetOwner owner = new PetOwner();
-		owner.setFirstName("mike");
-		owner.setLastName("smith");
+		owner.setFirstName("mike767867");
+		owner.setLastName("smith8888");
 		
 		Pet dog = new Pet();
 		dog.setAge(10);
 		dog.setName("rin0");
+		dog.setPetOwner(owner);
 		
-//		Set<Pet> dogs = new HashSet<>();
-//		dogs.add(dog);
-//		
-//		owner.setPets(dogs);
+
 		
+		owner.getPets().add(dog);
 		
 		petOwnerRepository.save(owner);
 
