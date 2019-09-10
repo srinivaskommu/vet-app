@@ -1,5 +1,6 @@
 package com.vet.clinic.app;
 
+import java.time.OffsetDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -51,7 +52,8 @@ public class VetClinicAppApplication implements CommandLineRunner{
 		Appointment app = new Appointment();
 		app.setPet(dog);
 		app.setVeterinarian(john);
-
+		app.setStartTime(OffsetDateTime.now());
+        app.setEndTime(OffsetDateTime.now());
 		
 
 		

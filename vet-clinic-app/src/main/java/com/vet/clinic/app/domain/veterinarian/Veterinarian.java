@@ -4,13 +4,14 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.common.BaseEntity;
-
+import com.vet.clinic.app.domain.common.BaseEntityListener;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +20,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
+@EntityListeners({ BaseEntityListener.class })
 public class Veterinarian extends BaseEntity
 {
 

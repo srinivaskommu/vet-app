@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,8 +18,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.BatchSize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vet.clinic.app.domain.common.BaseEntity;
+import com.vet.clinic.app.domain.common.BaseEntityListener;
 import net.logstash.logback.encoder.org.apache.commons.lang3.StringUtils;
-
+@EntityListeners({ BaseEntityListener.class })
 public class User extends BaseEntity {
 
   private static final long serialVersionUID = 1L;

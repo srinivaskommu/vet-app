@@ -4,10 +4,12 @@ import java.time.OffsetDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import com.vet.clinic.app.domain.common.BaseEntity;
+import com.vet.clinic.app.domain.common.BaseEntityListener;
 import com.vet.clinic.app.domain.pet.Pet;
 import com.vet.clinic.app.domain.veterinarian.Veterinarian;
 
@@ -19,6 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
+@EntityListeners({ BaseEntityListener.class })
 public class Appointment extends BaseEntity
 {
 

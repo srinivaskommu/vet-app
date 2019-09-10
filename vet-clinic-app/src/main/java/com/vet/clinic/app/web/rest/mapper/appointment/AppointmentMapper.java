@@ -26,6 +26,14 @@ public class AppointmentMapper {
       dto.setId(appointment.getId());
       dto.setPetId(appointment.getPet().getId());
       dto.setVeterinarian(appointment.getVeterinarian().getId());
+      dto.setStartTime(appointment.getStartTime());
+      dto.setEndTime(appointment.getEndTime());
+      dto.setDescription(appointment.getDescription());
+
+      dto.setCreatedBy(appointment.getCreatedBy());
+      dto.setUpdatedBy(appointment.getUpdatedBy());
+      dto.setCreateTime(appointment.getCreateTime());
+      dto.setUpdateTime(appointment.getUpdateTime());
 
       return dto;
     }
@@ -45,6 +53,9 @@ public class AppointmentMapper {
       dto.setId(appointment.getId());
       dto.setPet(petRepository.findById(appointment.getPetId()).get());
       dto.setVeterinarian(veterinarianRepository.findById(appointment.getVeterinarian()).get());
+      dto.setStartTime(appointment.getStartTime());
+      dto.setEndTime(appointment.getEndTime());
+      dto.setDescription(appointment.getDescription());
 
       return dto;
     }

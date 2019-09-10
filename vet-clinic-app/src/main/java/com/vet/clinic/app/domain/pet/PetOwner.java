@@ -2,19 +2,19 @@ package com.vet.clinic.app.domain.pet;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.LAZY;
-import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import com.vet.clinic.app.domain.common.BaseEntity;
+import com.vet.clinic.app.domain.common.BaseEntityListener;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
+@EntityListeners({ BaseEntityListener.class })
 @Entity
 public class PetOwner extends BaseEntity
 {
