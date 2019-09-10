@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
 import com.vet.clinic.app.web.rest.errors.BadRequestAlertException;
-import com.vet.clinic.app.web.rest.pet.mapper.PetOwnerMapper;
+import com.vet.clinic.app.web.rest.mapper.pet.PetOwnerMapper;
 import io.github.jhipster.web.util.HeaderUtil;
 import lombok.extern.slf4j.Slf4j;
 

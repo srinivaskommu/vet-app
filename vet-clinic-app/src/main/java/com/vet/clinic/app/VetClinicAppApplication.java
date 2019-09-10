@@ -1,13 +1,10 @@
 package com.vet.clinic.app;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
+import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.appointment.AppointmentRepository;
 import com.vet.clinic.app.domain.pet.Pet;
 import com.vet.clinic.app.domain.pet.PetOwner;
@@ -51,11 +48,18 @@ public class VetClinicAppApplication implements CommandLineRunner{
 		dog.setName("rin0");
 		dog.setPetOwner(owner);
 		
+		Appointment app = new Appointment();
+		app.setPet(dog);
+		app.setVeterinarian(john);
+
+		
 
 		
 		owner.getPets().add(dog);
 		
 		petOwnerRepository.save(owner);
+		
+		appointmentRepository.save(app);
 
 	}
 

@@ -35,7 +35,7 @@ public class VeterinarianController {
   }
 
   @GetMapping("/veterinarians/{id}")
-  public ResponseEntity<Veterinarian> getEmployee(@PathVariable Long id) {
+  public ResponseEntity<Veterinarian> getVeterinarian(@PathVariable Long id) {
     log.debug("REST request to get Employee : {}", id);
     Optional<Veterinarian> veterinarian = veterinarianRepository.findById(id);
     return ResponseUtil.wrapOrNotFound(veterinarian);

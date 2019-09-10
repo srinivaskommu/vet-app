@@ -1,4 +1,4 @@
-package com.vet.clinic.app.web.rest.pet.mapper;
+package com.vet.clinic.app.web.rest.mapper.pet;
 
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
