@@ -2,7 +2,10 @@ package com.vet.clinic.app.web.rest.pet;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
 import com.vet.clinic.app.web.rest.errors.BadRequestAlertException;
+import com.vet.clinic.app.web.rest.pet.mapper.PetOwnerMapper;
 import io.github.jhipster.web.util.HeaderUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,34 +31,48 @@ public class PetOwnerController {
   @Autowired
   private PetOwnerRepository petOwnerRepository;
 
+  @Autowired
+  PetOwnerMapper petOwnerMapper;
+
+
   @GetMapping("/petOwners")
-  public Iterable<PetOwner> getAll() {
-    return petOwnerRepository.findAll();
+  public List<PetOwnerDto> getAll() {
+
+    return StreamSupport.stream(petOwnerRepository.findAll().spliterator(), false)
+        .map(petOwnerMapper::toPetOwnerDto).collect(Collectors.toList());
+
   }
-  
+
+
+
   @GetMapping("/petOwners/{id}")
-  public Optional<PetOwner> getById(@PathVariable Long id) {
-    return petOwnerRepository.findById(id);
+  public PetOwnerDto getById(@PathVariable Long id) {
+    Optional<PetOwner> dt = petOwnerRepository.findById(id);
+    
+    if(dt.isPresent()) {
+      return petOwnerMapper.toPetOwnerDto(dt.get());
+    }
+    return null;
   }
 
   @PostMapping("/petOwners")
-  public ResponseEntity<PetOwner> createPetOwner(@RequestBody PetOwner petOwner)
+  public ResponseEntity<PetOwnerDto> createPetOwner(@RequestBody PetOwnerDto petOwner)
       throws URISyntaxException {
     log.debug("REST request to save PetOwner : {}", petOwner);
     if (petOwner.getId() != null) {
       throw new BadRequestAlertException("A new PetOwner cannot already have an ID", "Veterinarian",
           "idexists");
     }
-    PetOwner result = petOwnerRepository.save(petOwner);
+    PetOwner result = petOwnerRepository.save(petOwnerMapper.toPetOwner(petOwner));
     return ResponseEntity
         .created(new URI("/petOwners/" + result.getId())).headers(HeaderUtil
             .createEntityCreationAlert("vsp", false, "PetOwner", result.getId().toString()))
-        .body(result);
+        .body(petOwnerMapper.toPetOwnerDto(result));
   }
 
   @PutMapping("/petOwners/{id}")
-  public ResponseEntity<PetOwner> updatePetOwner(@RequestBody PetOwner petOwner,@PathVariable Long id)
-      throws URISyntaxException {
+  public ResponseEntity<PetOwner> updatePetOwner(@RequestBody PetOwner petOwner,
+      @PathVariable Long id) throws URISyntaxException {
     log.debug("REST request to update PetOwner : {}", petOwner);
     if (petOwner.getId() == null) {
       throw new BadRequestAlertException("Invalid id", "PetOwner", "idnull");
@@ -63,7 +81,7 @@ public class PetOwnerController {
     return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("vsp", false,
         "Veterinarian", petOwner.getId().toString())).body(result);
   }
-  
+
   @DeleteMapping("/petOwners/{id}")
   public ResponseEntity<PetOwner> deleteVeternarian(@PathVariable Long id)
       throws URISyntaxException {
