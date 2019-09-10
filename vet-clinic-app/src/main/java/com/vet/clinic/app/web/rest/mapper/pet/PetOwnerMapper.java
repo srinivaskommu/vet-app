@@ -21,6 +21,12 @@ public class PetOwnerMapper {
       dto.setFirstName(petOwner.getFirstName());
       dto.setLastName(petOwner.getLastName());
       dto.setEmail(petOwner.getEmail());
+      dto.setPhoneNumber(petOwner.getPhoneNumber());
+      
+      dto.setCreatedBy(petOwner.getCreatedBy());
+      dto.setUpdatedBy(petOwner.getUpdatedBy());
+      dto.setCreateTime(petOwner.getCreateTime());
+      dto.setUpdateTime(petOwner.getUpdateTime());
 
       dto.getPets()
           .addAll(petOwner.getPets().stream().map(this::convert).collect(Collectors.toSet()));
@@ -33,9 +39,16 @@ public class PetOwnerMapper {
 
   private PetDto convert(Pet petOwner) {
     PetDto pet = new PetDto();
+    pet.setName(petOwner.getName());
     pet.setAge(petOwner.getAge());
     pet.setId(petOwner.getId());
-
+    pet.setPetOwnerId(petOwner.getPetOwner().getId());
+    pet.setSpiecesType(petOwner.getSpiecesType());
+    
+    pet.setCreatedBy(petOwner.getCreatedBy());
+    pet.setUpdatedBy(petOwner.getUpdatedBy());
+    pet.setCreateTime(petOwner.getCreateTime());
+    pet.setUpdateTime(petOwner.getUpdateTime());
 
     return pet;
   }
@@ -67,6 +80,8 @@ public class PetOwnerMapper {
     Pet pet = new Pet();
     pet.setAge(petOwner.getAge());
     pet.setId(petOwner.getId());
+    pet.setName(petOwner.getName());
+    pet.setSpiecesType(petOwner.getSpiecesType());
 
     return pet;
   }

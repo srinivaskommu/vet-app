@@ -19,7 +19,7 @@ import org.hibernate.annotations.BatchSize;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.common.BaseEntityListener;
-import net.logstash.logback.encoder.org.apache.commons.lang3.StringUtils;
+
 @EntityListeners({ BaseEntityListener.class })
 public class User extends BaseEntity {
 
@@ -102,7 +102,7 @@ public class User extends BaseEntity {
 
   // Lowercase the login before saving it in database
   public void setLogin(String login) {
-      this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
+      this.login = login.toLowerCase(Locale.ENGLISH);
   }
 
   public String getPassword() {

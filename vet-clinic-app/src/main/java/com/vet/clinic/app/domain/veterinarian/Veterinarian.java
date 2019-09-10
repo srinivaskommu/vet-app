@@ -8,7 +8,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.common.BaseEntityListener;
@@ -51,7 +52,7 @@ public class Veterinarian extends BaseEntity
 	@Column
 	private String zipCode;
 	
-
+	@JsonInclude(value = Include.NON_NULL)
 	@OneToMany
 	private Set<Appointment> appointments;
 	

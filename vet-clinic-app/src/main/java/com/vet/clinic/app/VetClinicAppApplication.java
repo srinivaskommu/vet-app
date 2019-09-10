@@ -10,6 +10,7 @@ import com.vet.clinic.app.domain.appointment.AppointmentRepository;
 import com.vet.clinic.app.domain.pet.Pet;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
+import com.vet.clinic.app.domain.pet.Species;
 import com.vet.clinic.app.domain.veterinarian.Veterinarian;
 import com.vet.clinic.app.domain.veterinarian.VeterinarianRepository;
 
@@ -35,21 +36,28 @@ public class VetClinicAppApplication implements CommandLineRunner{
 		
 		Veterinarian john = new Veterinarian();
 		john.setFirstName("john");
-		john.setFirstName("john-j");
+		john.setLastName("john-j");
 		john.setEmail("hdsjhkjj@gmail.com");
 		john.setPhoneNumber("903-25753");
+		john.setCity("SF");
+		john.setZipCode("94230");
+
 		veterinarianRepository.save(john);
 		
 		PetOwner owner = new PetOwner();
 		owner.setFirstName("mike767867");
 		owner.setLastName("smith8888");
+		owner.setEmail("hdsjhkjj@gmail.com");
+		owner.setPhoneNumber("903-25753");
 		
 		Pet dog = new Pet();
 		dog.setAge(10);
 		dog.setName("rin0");
 		dog.setPetOwner(owner);
+		dog.setSpiecesType(Species.DOG);
 		
 		Appointment app = new Appointment();
+		app.setDescription("basic description");
 		app.setPet(dog);
 		app.setVeterinarian(john);
 		app.setStartTime(OffsetDateTime.now());
