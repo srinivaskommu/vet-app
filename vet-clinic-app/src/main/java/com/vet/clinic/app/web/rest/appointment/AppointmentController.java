@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.appointment.AppointmentRepository;
 import com.vet.clinic.app.domain.veterinarian.Veterinarian;
+import com.vet.clinic.app.web.rest.errors.VeterinarianNotFoundException;
 import com.vet.clinic.app.web.rest.mapper.appointment.AppointmentMapper;
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
+import static org.springframework.http.ResponseEntity.created;
+import static org.springframework.http.ResponseEntity.noContent;
+import static org.springframework.http.ResponseEntity.ok;
+
 
 @RestController
 @Slf4j
@@ -37,16 +40,16 @@ public class AppointmentController {
 
 
 
-  @PostMapping("/appointments")
-  public ResponseEntity<AppointmentDto>  createAppointment(@RequestBody AppointmentDto aAppointmentDto) throws URISyntaxException 
-  {
-    Appointment appointment =   appointmentRepository.save(appointmentMapper.fromDto(aAppointmentDto));
-    
-    return ResponseEntity
-        .created(new URI("/appointments/" + appointment.getId())).headers(HeaderUtil
-            .createEntityCreationAlert("vsp", false, "Appointment", appointment.getId().toString()))
-        .body(appointmentMapper.toDto(appointment));
-  }
+//  @PostMapping("/appointments")
+//  public ResponseEntity<AppointmentDto>  createAppointment(@RequestBody AppointmentDto aAppointmentDto) throws URISyntaxException 
+//  {
+//    Appointment appointment =   appointmentRepository.save(appointmentMapper.fromDto(aAppointmentDto));
+//    
+//    return ResponseEntity
+//        .created(new URI("/appointments/" + appointment.getId())).headers(HeaderUtil
+//            .createEntityCreationAlert("vsp", false, "Appointment", appointment.getId().toString()))
+//        .body(appointmentMapper.toDto(appointment));
+//  }
 
 //  @PatchMapping("/appointments/{id}")
 //  public List<AppointmentDto> updateAppointment(@RequestBody Map<String, String> update,
@@ -63,8 +66,9 @@ public class AppointmentController {
 @GetMapping("/appointments/{id}")
 public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable Long id) {
   Optional<Appointment> appointment = appointmentRepository.findById(id);
+  
+  return ok(Optional.of(appointmentMapper.toDto(appointment.get())).orElseThrow(() -> new VeterinarianNotFoundException()));
 
-  return ResponseUtil.wrapOrNotFound(Optional.of(appointmentMapper.toDto(appointment.get())));
 }
 
 

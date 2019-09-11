@@ -1,20 +1,26 @@
 package com.vet.clinic.app;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.appointment.AppointmentRepository;
 import com.vet.clinic.app.domain.pet.Pet;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
 import com.vet.clinic.app.domain.pet.Species;
+import com.vet.clinic.app.domain.user.User;
+import com.vet.clinic.app.domain.user.UserRepository;
 import com.vet.clinic.app.domain.veterinarian.Veterinarian;
 import com.vet.clinic.app.domain.veterinarian.VeterinarianRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
+@Slf4j
 public class VetClinicAppApplication implements CommandLineRunner{
 
 	@Autowired
@@ -25,6 +31,12 @@ public class VetClinicAppApplication implements CommandLineRunner{
 	
 	@Autowired
 	private VeterinarianRepository veterinarianRepository;
+	
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    UserRepository userRepository;
 	
 	
 	public static void main(String[] args) {
@@ -70,6 +82,24 @@ public class VetClinicAppApplication implements CommandLineRunner{
 		petOwnerRepository.save(owner);
 		
 		appointmentRepository.save(app);
+		
+		
+        this.userRepository.save(User.builder()
+            .username("user")
+            .password(this.passwordEncoder.encode("password"))
+            .roles(Arrays.asList( "ROLE_USER"))
+            .build()
+        );
+
+        this.userRepository.save(User.builder()
+            .username("admin")
+            .password(this.passwordEncoder.encode("password"))
+            .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
+            .build()
+        );
+
+        log.debug("printing all users...");
+        this.userRepository.findAll().forEach(v -> log.debug(" User :" + v.toString()));
 
 	}
 

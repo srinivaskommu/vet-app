@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
-import com.vet.clinic.app.web.rest.errors.BadRequestAlertException;
 import com.vet.clinic.app.web.rest.mapper.pet.PetOwnerMapper;
-import io.github.jhipster.web.util.HeaderUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -55,42 +53,42 @@ public class PetOwnerController {
     return null;
   }
 
-  @PostMapping("/petOwners")
-  public ResponseEntity<PetOwnerDto> createPetOwner(@RequestBody PetOwnerDto petOwner)
-      throws URISyntaxException {
-    log.debug("REST request to save PetOwner : {}", petOwner);
-    if (petOwner.getId() != null) {
-      throw new BadRequestAlertException("A new PetOwner cannot already have an ID", "Veterinarian",
-          "idexists");
-    }
-    PetOwner result = petOwnerRepository.save(petOwnerMapper.toPetOwner(petOwner));
-    return ResponseEntity
-        .created(new URI("/petOwners/" + result.getId())).headers(HeaderUtil
-            .createEntityCreationAlert("vsp", false, "PetOwner", result.getId().toString()))
-        .body(petOwnerMapper.toPetOwnerDto(result));
-  }
-
-  @PutMapping("/petOwners/{id}")
-  public ResponseEntity<PetOwner> updatePetOwner(@RequestBody PetOwner petOwner,
-      @PathVariable Long id) throws URISyntaxException {
-    log.debug("REST request to update PetOwner : {}", petOwner);
-    if (petOwner.getId() == null) {
-      throw new BadRequestAlertException("Invalid id", "PetOwner", "idnull");
-    }
-    PetOwner result = petOwnerRepository.save(petOwner);
-    return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("vsp", false,
-        "Veterinarian", petOwner.getId().toString())).body(result);
-  }
-
-  @DeleteMapping("/petOwners/{id}")
-  public ResponseEntity<PetOwner> deleteVeternarian(@PathVariable Long id)
-      throws URISyntaxException {
-
-    petOwnerRepository.deleteById(id);
-
-    return ResponseEntity.noContent()
-        .headers(HeaderUtil.createEntityDeletionAlert("vsp", false, "PetOwner", id.toString()))
-        .build();
-  }
+//  @PostMapping("/petOwners")
+//  public ResponseEntity<PetOwnerDto> createPetOwner(@RequestBody PetOwnerDto petOwner)
+//      throws URISyntaxException {
+//    log.debug("REST request to save PetOwner : {}", petOwner);
+//    if (petOwner.getId() != null) {
+//      throw new BadRequestAlertException("A new PetOwner cannot already have an ID", "Veterinarian",
+//          "idexists");
+//    }
+//    PetOwner result = petOwnerRepository.save(petOwnerMapper.toPetOwner(petOwner));
+//    return ResponseEntity
+//        .created(new URI("/petOwners/" + result.getId())).headers(HeaderUtil
+//            .createEntityCreationAlert("vsp", false, "PetOwner", result.getId().toString()))
+//        .body(petOwnerMapper.toPetOwnerDto(result));
+//  }
+//
+//  @PutMapping("/petOwners/{id}")
+//  public ResponseEntity<PetOwner> updatePetOwner(@RequestBody PetOwner petOwner,
+//      @PathVariable Long id) throws URISyntaxException {
+//    log.debug("REST request to update PetOwner : {}", petOwner);
+//    if (petOwner.getId() == null) {
+//      throw new BadRequestAlertException("Invalid id", "PetOwner", "idnull");
+//    }
+//    PetOwner result = petOwnerRepository.save(petOwner);
+//    return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("vsp", false,
+//        "Veterinarian", petOwner.getId().toString())).body(result);
+//  }
+//
+//  @DeleteMapping("/petOwners/{id}")
+//  public ResponseEntity<PetOwner> deleteVeternarian(@PathVariable Long id)
+//      throws URISyntaxException {
+//
+//    petOwnerRepository.deleteById(id);
+//
+//    return ResponseEntity.noContent()
+//        .headers(HeaderUtil.createEntityDeletionAlert("vsp", false, "PetOwner", id.toString()))
+//        .build();
+//  }
 
 }

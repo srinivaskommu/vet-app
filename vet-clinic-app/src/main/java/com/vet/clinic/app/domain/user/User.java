@@ -1,225 +1,74 @@
 package com.vet.clinic.app.domain.user;
 
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.annotations.BatchSize;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.vet.clinic.app.domain.common.BaseEntity;
-import com.vet.clinic.app.domain.common.BaseEntityListener;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@EntityListeners({ BaseEntityListener.class })
-public class User extends BaseEntity {
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-  private static final long serialVersionUID = 1L;
+import static java.util.stream.Collectors.toList;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Entity
+@Table(name="users")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
-  @NotNull
-  @Size(min = 1, max = 50)
-  @Column(length = 50, unique = true, nullable = false)
-  private String login;
+    @NotEmpty
+    private String username;
 
-  @JsonIgnore
-  @NotNull
-  @Size(min = 60, max = 60)
-  @Column(name = "password_hash", length = 60, nullable = false)
-  private String password;
+    @NotEmpty
+    private String password;
 
-  @Size(max = 50)
-  @Column(name = "first_name", length = 50)
-  private String firstName;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
-  @Size(max = 50)
-  @Column(name = "last_name", length = 50)
-  private String lastName;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream().map(SimpleGrantedAuthority::new).collect(toList());
+    }
 
-  @Email
-  @Size(min = 5, max = 254)
-  @Column(length = 254, unique = true)
-  private String email;
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
 
-  @NotNull
-  @Column(nullable = false)
-  private boolean activated = false;
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
 
-  @Size(min = 2, max = 10)
-  @Column(name = "lang_key", length = 10)
-  private String langKey;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-  @Size(max = 256)
-  @Column(name = "image_url", length = 256)
-  private String imageUrl;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-  @Size(max = 20)
-  @Column(name = "activation_key", length = 20)
-  @JsonIgnore
-  private String activationKey;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-  @Size(max = 20)
-  @Column(name = "reset_key", length = 20)
-  @JsonIgnore
-  private String resetKey;
-
-  @Column(name = "reset_date")
-  private Instant resetDate = null;
-
-  @JsonIgnore
-  @ManyToMany
-  @JoinTable(
-      name = "jhi_user_authority",
-      joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-      inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
-
-  @BatchSize(size = 20)
-  private Set<Authority> authorities = new HashSet<>();
-
-  public Long getId() {
-      return id;
-  }
-
-  public void setId(Long id) {
-      this.id = id;
-  }
-
-  public String getLogin() {
-      return login;
-  }
-
-  // Lowercase the login before saving it in database
-  public void setLogin(String login) {
-      this.login = login.toLowerCase(Locale.ENGLISH);
-  }
-
-  public String getPassword() {
-      return password;
-  }
-
-  public void setPassword(String password) {
-      this.password = password;
-  }
-
-  public String getFirstName() {
-      return firstName;
-  }
-
-  public void setFirstName(String firstName) {
-      this.firstName = firstName;
-  }
-
-  public String getLastName() {
-      return lastName;
-  }
-
-  public void setLastName(String lastName) {
-      this.lastName = lastName;
-  }
-
-  public String getEmail() {
-      return email;
-  }
-
-  public void setEmail(String email) {
-      this.email = email;
-  }
-
-  public String getImageUrl() {
-      return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-      this.imageUrl = imageUrl;
-  }
-
-  public boolean getActivated() {
-      return activated;
-  }
-
-  public void setActivated(boolean activated) {
-      this.activated = activated;
-  }
-
-  public String getActivationKey() {
-      return activationKey;
-  }
-
-  public void setActivationKey(String activationKey) {
-      this.activationKey = activationKey;
-  }
-
-  public String getResetKey() {
-      return resetKey;
-  }
-
-  public void setResetKey(String resetKey) {
-      this.resetKey = resetKey;
-  }
-
-  public Instant getResetDate() {
-      return resetDate;
-  }
-
-  public void setResetDate(Instant resetDate) {
-      this.resetDate = resetDate;
-  }
-
-  public String getLangKey() {
-      return langKey;
-  }
-
-  public void setLangKey(String langKey) {
-      this.langKey = langKey;
-  }
-
-  public Set<Authority> getAuthorities() {
-      return authorities;
-  }
-
-  public void setAuthorities(Set<Authority> authorities) {
-      this.authorities = authorities;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-      if (this == o) {
-          return true;
-      }
-      if (!(o instanceof User)) {
-          return false;
-      }
-      return id != null && id.equals(((User) o).id);
-  }
-
-  @Override
-  public int hashCode() {
-      return 31;
-  }
-
-  @Override
-  public String toString() {
-      return "User{" +
-          "login='" + login + '\'' +
-          ", firstName='" + firstName + '\'' +
-          ", lastName='" + lastName + '\'' +
-          ", email='" + email + '\'' +
-          ", imageUrl='" + imageUrl + '\'' +
-          ", activated='" + activated + '\'' +
-          ", langKey='" + langKey + '\'' +
-          ", activationKey='" + activationKey + '\'' +
-          "}";
-  }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
