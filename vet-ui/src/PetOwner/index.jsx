@@ -4,15 +4,17 @@ import moment from 'moment';
 import axios from 'axios';
 import {apiUrl} from '../config';
 
-class Vet extends Component {
+class AddPetOwner extends Component {
 
     state = {
         firstName: "",
         lastName: "",
         phoneNumber: "",
         email: "",
-        city: "",
-        zipCode: ""
+        name: "",
+        spiecesType: "",
+        age: "",
+        pets: []
     };
 
     getHeaders = () => {
@@ -24,23 +26,36 @@ class Vet extends Component {
         }
       }
 
-    onAddVet = () => {
-        const {firstName, lastName, phoneNumber, email, city, zipCode} = this.state;
+    onAddOwner = () => {
+        const {firstName, lastName, phoneNumber, email, pets} = this.state;
         const ownerData = {
-            firstName, lastName, phoneNumber, email, city, zipCode
+            firstName, lastName, phoneNumber, email, pets
         }
-        
-        axios.post(apiUrl+'/veterinarians', ownerData, this.getHeaders())
+        axios.post(apiUrl+'/petOwners', ownerData, this.getHeaders())
        .then((res) => {
            this.resetData();
-           alert("Vet Successfully added ");
+           alert("Pet owner Successfully added ");
+
        });
-    
+    }
+
+    resetData = () => {
+        this.setState({
+            firstName: "",
+            lastName: "",
+            phoneNumber: "",
+            email: "",
+            name: "",
+            spiecesType: "",
+            age: "",
+            pets: []
+        }
+        )
     }
 
     handleInputChange = (event) => {
         const target = event.target;
-        const value = target.value;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
     
         this.setState({
@@ -48,27 +63,26 @@ class Vet extends Component {
         });
       }
 
-    resetData = () => {
-        this.setState({
-                firstName: "",
-                lastName: "",
-                phoneNumber: "",
-                email: "",
-                city: "",
-                zipCode: ""
-            }
-        );
-    }
-
+      onAddPet = ()=> {
+          const {name, spiecesType, age, pets} = this.state;
+          const newPets = [...pets];
+          newPets.push({name, spiecesType, age});
+          this.setState({
+            name: '',
+            spiecesType: '',
+            age: '',
+            pets: newPets
+          })
+      }
 
     render() {
         
         return (
-            <div className="modal fade" id="add-vet-model" tabIndex="-1" role="dialog">
+            <div className="modal fade" id="add-pet-owner-model" tabIndex="-1" role="dialog">
                 <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">Add Veterinarian</h5>
+                            <h5 className="modal-title">Add Pet Owner</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -77,7 +91,7 @@ class Vet extends Component {
                             <div className="container">
                                     <div>
                                         <div className="form-group">
-                                            <label>FirstName</label>
+                                            <label>Pet Owner FirstName</label>
                                             <input className="form-control"
                                                 name="firstName"
                                                 value={this.state.firstName}
@@ -104,26 +118,41 @@ class Vet extends Component {
                                                 value={this.state.email}
                                                 onChange={this.handleInputChange} />
                                         </div>
-                                        <div className="form-group">
-                                            <label>City</label>
-                                            <input className="form-control"
-                                                name="city"
-                                                value={this.state.city}
+                                        <div className="form-group" style={{display:'flex', justifyContent:'space-between'}}>
+                                            <input 
+                                                    placeholder="Pet Name"
+                                                    name="name"
+                                                    value={this.state.name}
+                                                    onChange={this.handleInputChange} />
+                                            <input 
+                                                placeholder="Pet Type"
+                                                name="spiecesType"
+                                                value={this.state.spiecesType}
                                                 onChange={this.handleInputChange} />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Zip Code</label>
-                                            <input className="form-control"
-                                                name="zipCode"
-                                                value={this.state.zipCode}
+
+                                            <input
+                                                placeholder="Pet Age"
+                                                name="age"
+                                                value={this.state.age}
                                                 onChange={this.handleInputChange} />
+                                            <button className="btn btn-primary" onClick={this.onAddPet}>Add Pet</button>
                                         </div>
+                                        {this.state.pets.map(pet => {
+                                            return (
+                                                <div className="form-group">
+                                                    <label>{pet.name}</label>
+                                                    - <label>{pet.spiecesType}</label>
+                                                    -  <label>{pet.age}</label>
+                                                </div>
+                                            );
+                                        })}
+                                        
                                     </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.resetData}>Cancel</button>
-                            <button onClick={this.onAddVet} type="button" className="btn btn-primary" data-dismiss="modal">Add Owner</button>
+                            <button onClick={this.onAddOwner} type="button" className="btn btn-primary" data-dismiss="modal">Add Owner</button>
                         </div>
                     </div>
                 </div>
@@ -132,4 +161,4 @@ class Vet extends Component {
     }
 }
 
-export default Vet;
+export default AddPetOwner;

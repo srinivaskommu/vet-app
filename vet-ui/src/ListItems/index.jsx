@@ -63,7 +63,7 @@ class ListItems extends React.Component{
     // Make HTTP reques with Axios
     axios(this.apiUrl, {
         headers :{
-            "Authorization":"Bearer "+localStorage.getItem("apiToken")
+            Authorization: 'Bearer '+localStorage.getItem("apiToken")
         }
     })
       .then((res) => {

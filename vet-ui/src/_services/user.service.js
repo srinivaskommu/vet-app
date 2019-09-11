@@ -22,7 +22,7 @@ function login(username, password) {
                 // to keep user logged in between page refreshes
                 user.authdata = user.token;
                 localStorage.setItem('user', JSON.stringify(user));
-                localStorage.setItem('apiToken', JSON.stringify(user.token));
+                localStorage.setItem('apiToken', user.token);
             }
 
             return user;

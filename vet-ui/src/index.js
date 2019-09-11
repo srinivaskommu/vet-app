@@ -1,12 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import { render } from 'react-dom';
+// 3rd party libraries
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/input-moment/dist/input-moment.css";
+import "jquery/dist/jquery.min";
+import "bootstrap/dist/js/bootstrap.min";
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// setup fake backend
+import { configureFakeBackend } from './_helpers';
+configureFakeBackend();
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+render(<App />,
+    document.getElementById('root')
+);
