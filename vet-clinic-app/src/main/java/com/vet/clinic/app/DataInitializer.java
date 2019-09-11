@@ -93,6 +93,21 @@ public class DataInitializer implements CommandLineRunner {
           .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
           .build()
       );
+      
+      userRepository.save(User.builder()
+          .username("vet")
+          .password(this.passwordEncoder.encode("password"))
+          .roles(Arrays.asList("ROLE_VET"))
+          .build()
+      );
+      
+      
+      userRepository.save(User.builder()
+          .username("pet")
+          .password(this.passwordEncoder.encode("password"))
+          .roles(Arrays.asList("ROLE_PETOWNER"))
+          .build()
+      );
 
       log.debug("printing all users...");
       userRepository.findAll().forEach(v -> log.debug(" User :" + v.toString()));
