@@ -21,96 +21,78 @@ import java.util.Arrays;
 
 @Component
 @Slf4j
-public class DataInitializer implements CommandLineRunner {
+public class DataInitializer implements CommandLineRunner
+{
 
-    @Autowired
-    UserRepository userRepository;
+  @Autowired
+  UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    
-    @Autowired
-    private AppointmentRepository appointmentRepository;
-    
-    @Autowired
-    private PetOwnerRepository petOwnerRepository;
-    
-    @Autowired
-    private VeterinarianRepository veterinarianRepository;
-    
-    
-    @Override
-    public void run(String... args) throws Exception {
-      
-      Veterinarian john = new Veterinarian();
-      john.setFirstName("john");
-      john.setLastName("john-j");
-      john.setEmail("hdsjhkjj@gmail.com");
-      john.setPhoneNumber("903-25753");
-      john.setCity("SF");
-      john.setZipCode("94230");
+  @Autowired
+  PasswordEncoder passwordEncoder;
 
-      veterinarianRepository.save(john);
-      
-      PetOwner owner = new PetOwner();
-      owner.setFirstName("mike767867");
-      owner.setLastName("smith8888");
-      owner.setEmail("hdsjhkjj@gmail.com");
-      owner.setPhoneNumber("903-25753");
-      
-      Pet dog = new Pet();
-      dog.setAge(10);
-      dog.setName("rin0");
-      dog.setPetOwner(owner);
-      dog.setSpiecesType(Species.DOG);
-      
-      Appointment app = new Appointment();
-      app.setDescription("basic description");
-      app.setPet(dog);
-      app.setVeterinarian(john);
-      app.setStartTime(OffsetDateTime.now());
-      app.setEndTime(OffsetDateTime.now());
-      
 
-      
-      owner.getPets().add(dog);
-      
-      petOwnerRepository.save(owner);
-      
-      appointmentRepository.save(app);
-      
-      
-      userRepository.save(User.builder()
-          .username("user")
-          .password(this.passwordEncoder.encode("password"))
-          .roles(Arrays.asList( "ROLE_USER"))
-          .build()
-      );
+  @Autowired
+  private PetOwnerRepository petOwnerRepository;
 
-      userRepository.save(User.builder()
-          .username("admin")
-          .password(this.passwordEncoder.encode("password"))
-          .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
-          .build()
-      );
-      
-      userRepository.save(User.builder()
-          .username("vet")
-          .password(this.passwordEncoder.encode("password"))
-          .roles(Arrays.asList("ROLE_VET"))
-          .build()
-      );
-      
-      
-      userRepository.save(User.builder()
-          .username("pet")
-          .password(this.passwordEncoder.encode("password"))
-          .roles(Arrays.asList("ROLE_PETOWNER"))
-          .build()
-      );
+  @Autowired
+  private VeterinarianRepository veterinarianRepository;
 
-      log.debug("printing all users...");
-      userRepository.findAll().forEach(v -> log.debug(" User :" + v.toString()));
+  @Override
+  public void run(String... args) throws Exception
+  {
+
+    Veterinarian john = new Veterinarian();
+    john.setFirstName("john");
+    john.setLastName("john-j");
+    john.setEmail("hdsjhkjj@gmail.com");
+    john.setPhoneNumber("903-25753");
+    john.setCity("SF");
+    john.setZipCode("94230");
+
+    veterinarianRepository.save(john);
+
+    PetOwner owner = new PetOwner();
+    owner.setFirstName("mike767867");
+    owner.setLastName("smith8888");
+    owner.setEmail("hdsjhkjj@gmail.com");
+    owner.setPhoneNumber("903-25753");
+
+    Pet dog = new Pet();
+    dog.setAge(10);
+    dog.setName("rin0");
+    dog.setPetOwner(owner);
+    dog.setSpiecesType(Species.DOG);
+
+    owner.getPets().add(dog);
+
+    petOwnerRepository.save(owner);
+
+    userRepository.save(User.builder()
+        .username("user")
+        .password(this.passwordEncoder.encode("password"))
+        .roles(Arrays.asList("ROLE_USER"))
+        .build());
+
+    userRepository.save(User.builder()
+        .username("admin")
+        .password(this.passwordEncoder.encode("password"))
+        .roles(Arrays.asList("ROLE_USER", "ROLE_ADMIN"))
+        .build());
+
+    userRepository.save(User.builder()
+        .username("vet")
+        .password(this.passwordEncoder.encode("password"))
+        .roles(Arrays.asList("ROLE_VET"))
+        .build());
+
+    userRepository.save(User.builder()
+        .username("pet")
+        .password(this.passwordEncoder.encode("password"))
+        .roles(Arrays.asList("ROLE_PETOWNER"))
+        .build());
+
+    log.debug("printing all users...");
+    userRepository.findAll().forEach(v -> log.debug(" User :" + v.toString()));
 
   }
 }

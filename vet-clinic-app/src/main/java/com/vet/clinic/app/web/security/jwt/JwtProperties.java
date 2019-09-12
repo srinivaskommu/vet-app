@@ -1,17 +1,16 @@
 package com.vet.clinic.app.web.security.jwt;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import lombok.Data;
+
 @Configuration
-//@ConfigurationProperties(prefix = "jwt")
 @Data
 public class JwtProperties {
 
 	private String secretKey = "secret";
 
-	//validity in milliseconds
-	private long validityInMs = 3600000; // 1h
+  @Value("${token.expiration.in.ms}")
+	private long validityInMs; 
 }
