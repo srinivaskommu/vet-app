@@ -29,6 +29,8 @@ public @interface ValidAppointmentDate {
 
   /** validation error code. */
   int errorCode() default 4001;
+  
+  boolean isStartDate() default  true;
 
   /** validation groups. */
   Class<?>[] groups() default {};
@@ -39,9 +41,12 @@ public @interface ValidAppointmentDate {
 
   static class AppointmentDateValidator
       implements ConstraintValidator<ValidAppointmentDate, OffsetDateTime> {
+    
+    boolean isStartDate = true;
+    
     @Override
     public void initialize(ValidAppointmentDate constraintAnnotation) {
-
+        this.isStartDate = constraintAnnotation.isStartDate();
     }
 
     /*
@@ -56,7 +61,7 @@ public @interface ValidAppointmentDate {
 
     private boolean isWorkHours(OffsetDateTime input)
     {
-      return input.getHour() > 8 && input.getHour() > 17 ;
+      return input.getHour() > 8 && input.getHour() < 17 ;
     }
 
     private boolean isWeekDay(OffsetDateTime input)

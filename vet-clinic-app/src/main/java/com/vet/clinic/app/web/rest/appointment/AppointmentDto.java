@@ -11,14 +11,13 @@ import lombok.Setter;
 @Setter
 @Validated
 @ValidAppointmentSchedule
-public class AppointmentDto extends BaseDto {
-
+public class AppointmentDto extends BaseDto
+{
 
   /**
    * 
    */
   private static final long serialVersionUID = -6252935308118786796L;
-
 
   private Long id;
 
@@ -27,8 +26,8 @@ public class AppointmentDto extends BaseDto {
   private OffsetDateTime startTime;
 
   @NotNull
+  @ValidAppointmentDate
   private OffsetDateTime endTime;
-
 
   private String description;
 

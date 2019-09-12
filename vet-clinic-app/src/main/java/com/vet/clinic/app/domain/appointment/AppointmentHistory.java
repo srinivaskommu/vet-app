@@ -2,11 +2,8 @@ package com.vet.clinic.app.domain.appointment;
 
 import java.time.OffsetDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.common.BaseEntityListener;
@@ -22,35 +19,8 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @EntityListeners({ BaseEntityListener.class })
-public class Appointment extends BaseEntity
+public class AppointmentHistory extends BaseEntity
 {
-
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 7461463034748017093L;
-
-  @Id
-  private Long id;
-
-  @Column
-  private OffsetDateTime startTime;
-
-  @Column
-  private OffsetDateTime endTime;
-
-  @Column
-  private String description;
-  
-  @Column
-  private AppointmentStatus status = AppointmentStatus.ACTIVE;
-
-  @OneToOne
-  private Pet pet;
-
-  @OneToOne
-  private Veterinarian veterinarian;
-  
   
 
 }

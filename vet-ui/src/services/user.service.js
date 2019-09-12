@@ -1,4 +1,5 @@
-import { authHeader } from '../_helpers';
+import { LOGIN_URL, PET_OWNER_URL } from '../config';
+import BaseService from './base.service';
 
 export const userService = {
     login,
@@ -7,13 +8,8 @@ export const userService = {
 };
 
 function login(username, password) {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
-    };
 
-    return fetch(`http://localhost:8080/vsp/login`, requestOptions)
+    return BaseService.post(LOGIN_URL, {username, password})
         .then(handleResponse)
         .then(user => {
             // login successful if there's a user in the response
@@ -35,12 +31,7 @@ function logout() {
 }
 
 function getAll() {
-    const requestOptions = {
-        method: 'GET',
-        headers: authHeader()
-    };
-
-    return fetch(`http://localhost:8080/vsp/petOwners`, requestOptions).then(handleResponse);
+    return BaseService.get(PET_OWNER_URL).then(handleResponse);
 }
 
 function handleResponse(response) {
