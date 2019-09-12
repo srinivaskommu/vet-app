@@ -8,10 +8,6 @@ import "bootstrap/dist/js/bootstrap.min";
 
 import App from './App';
 
-// setup fake backend
-import { configureFakeBackend } from './_helpers';
-configureFakeBackend();
-
 render(<App />,
     document.getElementById('root')
 );

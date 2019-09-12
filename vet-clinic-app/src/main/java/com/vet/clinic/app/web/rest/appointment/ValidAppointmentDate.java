@@ -56,7 +56,7 @@ public @interface ValidAppointmentDate {
 
     private boolean isWorkHours(OffsetDateTime input)
     {
-      return input.getHour() > 8 && input.getHour() > 17 ;
+      return input.getHour() > 8 && input.getHour() < 17 ;
     }
 
     private boolean isWeekDay(OffsetDateTime input)

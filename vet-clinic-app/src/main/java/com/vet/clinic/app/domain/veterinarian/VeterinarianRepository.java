@@ -2,6 +2,8 @@ package com.vet.clinic.app.domain.veterinarian;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface VeterinarianRepository extends PagingAndSortingRepository<Veterinarian, Long> {
+import com.vet.clinic.app.domain.common.VspBaseRepository;
+
+public interface VeterinarianRepository extends VspBaseRepository<Veterinarian, Long> {
 
 }

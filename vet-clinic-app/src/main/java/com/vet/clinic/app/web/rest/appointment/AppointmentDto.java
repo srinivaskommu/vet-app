@@ -3,6 +3,8 @@ package com.vet.clinic.app.web.rest.appointment;
 import java.time.OffsetDateTime;
 import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
+
+import com.vet.clinic.app.domain.appointment.AppointmentStatus;
 import com.vet.clinic.app.web.rest.common.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,14 +13,10 @@ import lombok.Setter;
 @Setter
 @Validated
 @ValidAppointmentSchedule
-public class AppointmentDto extends BaseDto {
+public class AppointmentDto extends BaseDto
+{
 
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = -6252935308118786796L;
-
 
   private Long id;
 
@@ -27,8 +25,8 @@ public class AppointmentDto extends BaseDto {
   private OffsetDateTime startTime;
 
   @NotNull
+  @ValidAppointmentDate
   private OffsetDateTime endTime;
-
 
   private String description;
 
@@ -37,5 +35,7 @@ public class AppointmentDto extends BaseDto {
 
   @NotNull
   private Long veterinarian;
+
+  private AppointmentStatus status;
 
 }

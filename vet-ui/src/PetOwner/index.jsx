@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import InputMoment from 'input-moment';
-import moment from 'moment';
-import axios from 'axios';
-import {apiUrl} from '../config';
+import BaseService from '../services/base.service';
+import { PET_OWNER_URL } from '../config';
 
 class AddPetOwner extends Component {
 
@@ -31,7 +29,7 @@ class AddPetOwner extends Component {
         const ownerData = {
             firstName, lastName, phoneNumber, email, pets
         }
-        axios.post(apiUrl+'/petOwners', ownerData, this.getHeaders())
+        BaseService.post(PET_OWNER_URL, ownerData)
        .then((res) => {
            this.resetData();
            alert("Pet owner Successfully added ");

@@ -8,20 +8,23 @@ import com.vet.clinic.app.domain.veterinarian.VeterinarianRepository;
 import com.vet.clinic.app.web.rest.appointment.AppointmentDto;
 
 @Service
-public class AppointmentMapper {
+public class AppointmentMapper
+{
 
   @Autowired
   private PetRepository petRepository;
 
-
   @Autowired
   private VeterinarianRepository veterinarianRepository;
 
-
-  public AppointmentDto toDto(Appointment appointment) {
-    if (appointment == null) {
+  public AppointmentDto toDto(Appointment appointment)
+  {
+    if (appointment == null)
+    {
       return null;
-    } else {
+    }
+    else
+    {
       AppointmentDto dto = new AppointmentDto();
       dto.setId(appointment.getId());
       dto.setPetId(appointment.getPet().getId());
@@ -29,6 +32,7 @@ public class AppointmentMapper {
       dto.setStartTime(appointment.getStartTime());
       dto.setEndTime(appointment.getEndTime());
       dto.setDescription(appointment.getDescription());
+      dto.setStatus(appointment.getStatus());
 
       dto.setCreatedBy(appointment.getCreatedBy());
       dto.setUpdatedBy(appointment.getUpdatedBy());
@@ -38,17 +42,17 @@ public class AppointmentMapper {
       return dto;
     }
 
-
-
   }
 
-  public Appointment fromDto(AppointmentDto appointment) {
+  public Appointment fromDto(AppointmentDto appointment)
+  {
 
-
-
-    if (appointment == null) {
+    if (appointment == null)
+    {
       return null;
-    } else {
+    }
+    else
+    {
       Appointment dto = new Appointment();
       dto.setId(appointment.getId());
       dto.setPet(petRepository.findById(appointment.getPetId()).get());
@@ -59,8 +63,6 @@ public class AppointmentMapper {
 
       return dto;
     }
-
-
 
   }
 

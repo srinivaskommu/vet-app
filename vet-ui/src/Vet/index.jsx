@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import InputMoment from 'input-moment';
-import moment from 'moment';
-import axios from 'axios';
-import {apiUrl} from '../config';
+import { VET_URL } from '../config';
+import baseService from '../services/base.service';
 
 class Vet extends Component {
 
@@ -30,7 +28,7 @@ class Vet extends Component {
             firstName, lastName, phoneNumber, email, city, zipCode
         }
         
-        axios.post(apiUrl+'/veterinarians', ownerData, this.getHeaders())
+        baseService.post(VET_URL, ownerData)
        .then((res) => {
            this.resetData();
            alert("Vet Successfully added ");

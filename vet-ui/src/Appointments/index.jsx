@@ -1,7 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import AddAppointment from './AddAppointment';
 import SearchAppointments from './SearchAppointments';
+import { APPOINTMENTS_URL } from '../config';
+import baseService from '../services/base.service';
 
 const Title = ({appointmentCount}) => {
   return (
@@ -54,19 +55,21 @@ class Appointments extends React.Component{
     this.state = {
       data: []
     }
-    this.apiUrl = 'http://localhost:8080/vsp/appointments'
   }
   // Lifecycle method
   componentDidMount(){
-    // Make HTTP reques with Axios
+    // Make HTTP request
     this.getAppointments();
   }
 
   getAppointments = () => {
-    axios.get(this.apiUrl, this.getHeaders())
+    baseService.get(APPOINTMENTS_URL)
       .then((res) => {
         // Set state with result
-        this.setState({data:res.data});
+        if(res && res.data)
+          this.setState({data:res.data});
+          else
+          this.setState({data:[]});
       });
   }
 
@@ -82,7 +85,7 @@ class Appointments extends React.Component{
   onAddAppointment = (appointment) => {
     // Assemble data
     // Update data
-    axios.post(this.apiUrl, appointment, this.getHeaders())
+    baseService.post(APPOINTMENTS_URL, appointment)
        .then((res) => {
          this.getAppointments();
           // this.state.data.push(appointment);
@@ -95,17 +98,17 @@ class Appointments extends React.Component{
   handleRemove = (id) => {
     // Filter all appointments except the one to be removed
     const remainder = this.state.data.filter((appointment) => {
-      if(appointment.id !== id) return appointment;
+      return (appointment.id !== id);
     });
     // Update state with filter
-    axios.delete(this.apiUrl+'/'+id)
+    baseService.delete(APPOINTMENTS_URL+'/'+id)
       .then((res) => {
         this.setState({data: remainder});
       })
   }
 
-  onSearchAppointment = (searchObj) => {
-    axios.post(this.apiUrl+'/search', searchObj, this.getHeaders())
+  onSearchAppointment = (searchQuery) => {
+    baseService.get(APPOINTMENTS_URL+'?'+searchQuery)
       .then((res) => {
         this.setState({data: res.data});
       })
@@ -118,7 +121,7 @@ class Appointments extends React.Component{
                 {/* <button className="btn btn-primary" data-toggle="modal" data-target="#add-appointment-model">Add Appointment</button> */}
                 <div className="card mt-3">
                     <div className="card-header">
-                        <Title appointmentCount={this.state.data.length}/>
+                      {this.state.data &&  <Title appointmentCount={this.state.data.length}/> }
                         <SearchAppointments onSearchAppointment={this.onSearchAppointment} />
                     </div>
                     <AppointmentList

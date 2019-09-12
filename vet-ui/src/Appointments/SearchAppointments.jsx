@@ -14,20 +14,22 @@ class SearchAppointments extends React.Component{
   
     onSearchAppointment = () => {
         const {searchType, petId, vetId, startTime} = this.state;
-        let searchObj;
+        let searchQuery;
         switch(searchType) {
             case 'Pet':
-                searchObj = {petId}
+                searchQuery = `petId=${petId}`;
                 break;
             case 'Vet':
-                searchObj = {vetId}
+                searchQuery = `vetId=${vetId}`;
                 break;
             case 'Date':
-                searchObj = {startTime}
+                searchQuery = `date=${startTime}`;
                 break;
+            default:
+              searchQuery = '';
         
         }
-      this.props.onSearchAppointment(searchObj)
+      this.props.onSearchAppointment(searchQuery)
     }
     onSearchTypeChange = ({target}) => {
      this.setState({searchType: target.value});
