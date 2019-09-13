@@ -1,6 +1,5 @@
 package com.vet.clinic.app.web.rest.appointment;
 
-import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 import java.net.URISyntaxException;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -26,11 +24,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.appointment.AppointmentRepository;
+import com.vet.clinic.app.service.appointment.AppointmentCancelDto;
 import com.vet.clinic.app.service.appointment.AppointmentService;
 import com.vet.clinic.app.web.rest.common.Utils;
 import com.vet.clinic.app.web.rest.mapper.appointment.AppointmentMapper;
@@ -66,11 +65,13 @@ public class AppointmentController
   }
 
   @GetMapping("/appointments")
-  public List<AppointmentDto> getAllAppointments()
+  public List<AppointmentDto> getAllAppointments(@RequestParam(required=false) Long vetId,
+      @RequestParam(required=false) Long petId,
+      @RequestParam(required=false) Integer page, @RequestParam(required=false) Integer perPage)
   {
 
-    return StreamSupport.stream(appointmentRepository.findAll().spliterator(), false)
-        .map(appointmentMapper::toDto).collect(Collectors.toList());
+    return appointmentService.search(vetId, petId, page, perPage).stream()
+    .map(appointmentMapper::toDto).collect(Collectors.toList());
 
   }
 
@@ -90,10 +91,12 @@ public class AppointmentController
   }
 
   @PatchMapping("/appointments/{id}")
-  public ResponseEntity<?> cancelAppointment(@RequestBody Map<String, String> update,
+  public ResponseEntity<?> cancelAppointment(@RequestBody AppointmentCancelDto dto,
       @PathVariable Long id)
   {
-    return null;
+    dto.setId(id);
+    Appointment appointment = appointmentService.cancel(dto);
+    return new ResponseEntity<>(appointmentMapper.toDto(appointment), Utils.headers(), HttpStatus.CREATED);
   }
 
   @Transactional(propagation = REQUIRED, rollbackFor = Exception.class, readOnly = false)

@@ -24,12 +24,23 @@ public class AppointmentScheduleValidator
     }
 
     if (aAppointmentDto.getStartTime().isBefore(OffsetDateTime.now())
-        || aAppointmentDto.getEndTime().isBefore(OffsetDateTime.now()))
+        || aAppointmentDto.getEndTime().isBefore(OffsetDateTime.now())
+        || isLessThan15MinDuration(aAppointmentDto))
     {
       return false;
     }
 
     return true;
+  }
+
+  private boolean isLessThan15MinDuration(AppointmentDto aAppointmentDto)
+  {
+    if ((aAppointmentDto.getEndTime().toInstant().getEpochSecond()
+        - aAppointmentDto.getStartTime().toInstant().getEpochSecond()) / 60 < 15)
+    {
+      return true;
+    }
+    return false;
   }
 
 }
