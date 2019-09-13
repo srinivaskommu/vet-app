@@ -30,6 +30,9 @@ class AddPetOwner extends Component {
             firstName, lastName, phoneNumber, email, pets
         }
         BaseService.post(PET_OWNER_URL, ownerData)
+        .then(function(response) {
+            return response.json();
+          })
        .then((res) => {
            this.resetData();
            alert("Pet owner Successfully added ");

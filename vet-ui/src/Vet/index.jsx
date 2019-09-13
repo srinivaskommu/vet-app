@@ -29,6 +29,9 @@ class Vet extends Component {
         }
         
         baseService.post(VET_URL, ownerData)
+        .then(function(response) {
+            return response.json();
+          })
        .then((res) => {
            this.resetData();
            alert("Vet Successfully added ");

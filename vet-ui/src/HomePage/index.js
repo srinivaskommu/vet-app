@@ -31,6 +31,7 @@ class HomePage extends React.Component {
         // const { user } = this.state;
         return (
                 <div role="main" className="container-fluid">
+                   <div style={{textAlign:'right'}}><button className="btn btn-primary" onClick={this.onLogout}>Logout</button></div> 
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add
                         <span class="caret"></span></button>
@@ -43,7 +44,7 @@ class HomePage extends React.Component {
                     <Appointments />
                     <AddPetOwner />
                     <Vet />
-                    <button className="btn btn-primary" onClick={this.onLogout}>Logout</button>
+
                 </div>
         );
     }

@@ -51,7 +51,8 @@ class SearchAppointments extends React.Component{
         <div>
             <div className="form-group" style={{display: 'flex', justifyContent:'space-between'}}>
                 <label for="search-dropdown">Search By:</label>
-                <select className="form-control" id="search-dropdown" onChange={this.onSearchTypeChange}>
+                <select className="form-control col-sm-4" id="search-dropdown" onChange={this.onSearchTypeChange}>
+                    <option></option>
                     <option>Pet</option>
                     <option>Vet</option>
                     <option>Date</option>
