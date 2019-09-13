@@ -4,14 +4,15 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +25,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.appointment.AppointmentRepository;
+import com.vet.clinic.app.domain.appointment.AppointmentSearchRepository;
+import com.vet.clinic.app.domain.common.VspSortFilter;
 import com.vet.clinic.app.service.appointment.AppointmentCancelDto;
 import com.vet.clinic.app.service.appointment.AppointmentService;
 import com.vet.clinic.app.web.rest.common.Utils;
@@ -43,13 +47,18 @@ import lombok.extern.slf4j.Slf4j;
 @CrossOrigin(origins = "*")
 public class AppointmentController
 {
+  public final Integer MAX_DEFAULT = 30;
 
   @Autowired
   private AppointmentRepository appointmentRepository;
 
   @Autowired
   private AppointmentService appointmentService;
+  
+  @Autowired
+  AppointmentSearchRepository appointmentSearchRepository;
 
+  
   @Autowired
   AppointmentMapper appointmentMapper;
 
@@ -65,13 +74,42 @@ public class AppointmentController
   }
 
   @GetMapping("/appointments")
-  public List<AppointmentDto> getAllAppointments(@RequestParam(required=false) Long vetId,
-      @RequestParam(required=false) Long petId,
-      @RequestParam(required=false) Integer page, @RequestParam(required=false) Integer perPage)
+  public List<AppointmentDto> getAllAppointments(@RequestParam(required = false) Long vetId,
+      @RequestParam(required = false) Long petId,
+      @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer perPage,
+      @RequestParam(required = false) String sortField,
+      @RequestParam(required = false) String sortDir,
+      @RequestHeader HttpHeaders headers)
   {
 
-    return appointmentService.search(vetId, petId, page, perPage).stream()
-    .map(appointmentMapper::toDto).collect(Collectors.toList());
+    Properties searchProperties = new Properties();
+    if (petId != null)
+      searchProperties.setProperty("petId", petId.toString());
+    if (vetId != null)
+      searchProperties.setProperty("vetId", vetId.toString());
+
+    if (page == null)
+    {
+      page = 1;
+    }
+
+    if (perPage == null)
+    {
+      perPage = MAX_DEFAULT;
+    }
+
+    // Setting first and max results based on page number and number of records on one page.
+    int start = (page - 1) * perPage;
+    Integer count = 0;
+    if ((count = appointmentSearchRepository.count(searchProperties)) != null)
+    {
+
+      headers.add("X-TOTAL", count.toString());
+    }
+
+    return appointmentSearchRepository
+        .search(searchProperties, VspSortFilter.toSortFilter(sortField, sortDir), start, perPage).stream()
+        .map(appointmentMapper::toDto).collect(Collectors.toList());
 
   }
 
