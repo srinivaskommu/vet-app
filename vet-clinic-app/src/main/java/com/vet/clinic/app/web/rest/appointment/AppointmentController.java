@@ -4,11 +4,9 @@ import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +36,6 @@ import com.vet.clinic.app.service.appointment.AppointmentService;
 import com.vet.clinic.app.web.rest.common.Utils;
 import com.vet.clinic.app.web.rest.mapper.appointment.AppointmentMapper;
 
-import io.github.jhipster.web.util.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -65,7 +62,7 @@ public class AppointmentController
   @Transactional(propagation = REQUIRED, rollbackFor = Exception.class, readOnly = false)
   @PostMapping("/appointments")
   public ResponseEntity<AppointmentDto> createAppointment(
-      @Valid @RequestBody AppointmentDto aAppointmentDto, HttpServletRequest request)
+      @Valid @RequestBody AppointmentDto aAppointmentDto)
       throws URISyntaxException
   {
     Appointment appointment = appointmentService.create(appointmentMapper.fromDto(aAppointmentDto));
@@ -104,7 +101,7 @@ public class AppointmentController
     if ((count = appointmentSearchRepository.count(searchProperties)) != null)
     {
 
-      headers.add("X-TOTAL", count.toString());
+      headers.add("X-Total-Count", count.toString());
     }
 
     return appointmentSearchRepository
@@ -116,9 +113,14 @@ public class AppointmentController
   @GetMapping("/appointments/{id}")
   public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable Long id)
   {
+    AppointmentDto response = null;
     Appointment appointment = appointmentRepository.loadEntityById(id);
+    if (appointment != null)
+    {
+      response = appointmentMapper.toDto(appointment);
+    }
 
-    return ResponseUtil.wrapOrNotFound(Optional.of(appointmentMapper.toDto(appointment)));
+    return new ResponseEntity<>(response, Utils.headers(), HttpStatus.NOT_FOUND);
   }
 
   @PutMapping("/appointments/{id}")

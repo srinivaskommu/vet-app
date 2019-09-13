@@ -50,10 +50,10 @@ public class Pet extends BaseEntity {
   @Column
   private int age;
 
-  @Getter
-  @Setter
-  @OneToMany
-  private Set<Appointment> appointments;
+//  @Getter
+//  @Setter
+//  @OneToMany
+//  private Set<Appointment> appointments;
 
   @Override
   public String toString() {

@@ -3,7 +3,6 @@ package com.vet.clinic.app.service.appointment;
 import static org.springframework.transaction.annotation.Propagation.REQUIRED;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

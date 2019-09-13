@@ -48,6 +48,10 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
@@ -72,11 +76,7 @@
     <artifactId>problem-spring-web</artifactId>
     <version>0.25.0</version>
 </dependency>
-<dependency>
-    <groupId>io.github.jhipster</groupId>
-    <artifactId>jhipster-framework</artifactId>
-    <version>3.0.4</version>
-</dependency>
+
 	</dependencies>
 
 	<build>

@@ -1,5 +1,9 @@
 package com.vet.clinic.app.web.rest.pet;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.vet.clinic.app.domain.pet.Species;
 import com.vet.clinic.app.web.rest.common.BaseDto;
 import lombok.Getter;
@@ -21,7 +25,8 @@ public class PetDto extends BaseDto {
 
   @Getter
   @Setter
-
+  @NotBlank
+  @Size(min = 3, max = 50)
   private String name;
 
   @Getter
@@ -34,12 +39,9 @@ public class PetDto extends BaseDto {
 
   @Getter
   @Setter
-  private int age;
+  @NotNull
+  private Integer age;
 
 
-  @Override
-  public String toString() {
-    return "PetOwner []";
-  }
 
 }

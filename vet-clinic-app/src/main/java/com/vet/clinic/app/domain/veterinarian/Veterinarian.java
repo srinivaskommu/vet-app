@@ -1,16 +1,12 @@
 package com.vet.clinic.app.domain.veterinarian;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.vet.clinic.app.domain.appointment.Appointment;
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.common.BaseEntityListener;
 
@@ -32,9 +28,13 @@ public class Veterinarian extends BaseEntity
   private static final long serialVersionUID = -8032080237278172048L;
 
   @Column
+  @NotEmpty
+  @Size(min = 3, max = 50)
   private String firstName;
 
   @Column
+  @NotEmpty
+  @Size(min = 3, max = 50)
   private String lastName;
 
   @Column
@@ -49,9 +49,5 @@ public class Veterinarian extends BaseEntity
 
   @Column
   private String zipCode;
-
-  @JsonInclude(value = Include.NON_NULL)
-  @OneToMany
-  private Set<Appointment> appointments;
 
 }

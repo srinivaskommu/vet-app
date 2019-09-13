@@ -35,7 +35,7 @@ class AddPetOwner extends Component {
           })
        .then((res) => {
            this.resetData();
-           alert("Pet owner Successfully added ");
+           //alert("Pet owner Successfully added ");
 
        });
     }
