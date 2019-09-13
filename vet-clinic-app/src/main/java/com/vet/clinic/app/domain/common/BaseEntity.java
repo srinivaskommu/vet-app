@@ -12,44 +12,33 @@ import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity implements Serializable
+{
+  private static final long serialVersionUID = -3068965097414471188L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3068965097414471188L;
-	
-	
-	@Id
-	@Getter
-	@Setter
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+  @Id
+  @Getter
+  @Setter
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-	@Column
-	@Getter
-	@Setter
-	private String createdBy;
-	@Getter
-	@Setter
-	@Column
-	private String updatedBy;
-	@Getter
-	@Setter
-	@Column
-	private OffsetDateTime createTime;
-	
-	@Getter
-	@Setter
-	@Column
-	private OffsetDateTime updateTime;
-	
-	
-	  @Override
-	  public String toString() {
-	    return "PetOwner []";
-	  }
+  @Column
+  @Getter
+  @Setter
+  private String createdBy;
+  @Getter
+  @Setter
+  @Column
+  private String updatedBy;
+  @Getter
+  @Setter
+  @Column
+  private OffsetDateTime createTime;
+
+  @Getter
+  @Setter
+  @Column
+  private OffsetDateTime updateTime;
 
 }

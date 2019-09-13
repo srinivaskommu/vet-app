@@ -3,12 +3,17 @@ package com.vet.clinic.app.domain.common;
 import java.time.OffsetDateTime;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BaseEntityListener {
-  
+public class BaseEntityListener
+{
+
   @PrePersist
   public void onPersist(BaseEntity baseEntity)
   {
@@ -28,7 +33,7 @@ public class BaseEntityListener {
 
     log.debug("updating entity " + baseEntity.getClass().getName());
   }
-  
+
   private void setCreateAndUpdateTimestamp(BaseEntity baseEntity)
   {
     if (baseEntity.getCreateTime() == null)
@@ -45,9 +50,15 @@ public class BaseEntityListener {
 
   private void setCreateAndUpdateUser(BaseEntity baseEntity)
   {
-    if (StringUtils.isEmpty(baseEntity.getCreatedBy()))
+    if (StringUtils.isEmpty(baseEntity.getCreatedBy())
+        && StringUtils.isEmpty(getAuthenticatedUser()))
     {
       baseEntity.setCreatedBy("ADMIN_USER");
+    }
+    else
+    {
+      baseEntity.setCreatedBy(getAuthenticatedUser());
+
     }
 
     updateUser(baseEntity);
@@ -55,10 +66,28 @@ public class BaseEntityListener {
 
   private void updateUser(BaseEntity baseEntity)
   {
-    if (StringUtils.isEmpty(baseEntity.getUpdatedBy()))
+    if (StringUtils.isEmpty(baseEntity.getUpdatedBy()) ||
+        StringUtils.isEmpty(getAuthenticatedUser()))
     {
       baseEntity.setUpdatedBy("ADMIN_USER");
     }
+    else
+    {
+      baseEntity.setCreatedBy(getAuthenticatedUser());
+
+    }
+  }
+
+  private String getAuthenticatedUser()
+  {
+    String currentUserName = null;
+//    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//    if (!(authentication instanceof AnonymousAuthenticationToken))
+//    {
+//      currentUserName = authentication.getName();
+//      return currentUserName;
+//    }
+    return currentUserName;
   }
 
 }

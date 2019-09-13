@@ -14,14 +14,6 @@ public class VspSortFilter
     DESC;
   }
 
-  /**
-   * Get SortDirection value from the given sort direction name. Making the input to uppercase and then matching for
-   * some leniency.
-   * 
-   * <p>
-   * Eg ascEnding/Ascending -> ASCENDING asc -> null.
-   * </p>
-   */
   public static SortDirection fromName(String givenSortDirection)
   {
     if (StringUtils.isEmpty(givenSortDirection))
@@ -42,12 +34,6 @@ public class VspSortFilter
 
   List<SortOrder> sortOrder = new ArrayList<SortOrder>();
 
-  /**
-   * SortOrder class which defines the sort order field and direction for this particular field.
-   * 
-   * @author vaibhav_shah
-   *
-   */
   public static class SortOrder
   {
     SortDirection sortDirection;
@@ -79,12 +65,6 @@ public class VspSortFilter
 
   }
 
-  /**
-   * Adds given sortorder to the list.
-   * 
-   * @param sortOrder
-   *          - sortorder
-   */
   public void addSortOrder(SortOrder sortOrder)
   {
     this.sortOrder.add(sortOrder);

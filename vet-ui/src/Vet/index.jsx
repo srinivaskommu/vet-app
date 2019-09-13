@@ -34,7 +34,7 @@ class Vet extends Component {
           })
        .then((res) => {
            this.resetData();
-           alert("Vet Successfully added ");
+           //alert("Vet Successfully added ");
        });
     
     }
@@ -124,7 +124,7 @@ class Vet extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.resetData}>Cancel</button>
-                            <button onClick={this.onAddVet} type="button" className="btn btn-primary" data-dismiss="modal">Add Owner</button>
+                            <button onClick={this.onAddVet} type="button" className="btn btn-primary" data-dismiss="modal">Add Vet</button>
                         </div>
                     </div>
                 </div>

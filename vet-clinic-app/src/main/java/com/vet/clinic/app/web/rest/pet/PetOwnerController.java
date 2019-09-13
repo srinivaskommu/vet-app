@@ -1,12 +1,15 @@
 package com.vet.clinic.app.web.rest.pet;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,18 +20,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.vet.clinic.app.domain.pet.PetOwner;
 import com.vet.clinic.app.domain.pet.PetOwnerRepository;
-import com.vet.clinic.app.web.rest.errors.BadRequestAlertException;
+import com.vet.clinic.app.web.rest.common.Utils;
 import com.vet.clinic.app.web.rest.mapper.pet.PetOwnerMapper;
-import io.github.jhipster.web.util.HeaderUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
 @Validated
 @CrossOrigin(origins = "*")
-public class PetOwnerController {
+public class PetOwnerController
+{
 
   @Autowired
   private PetOwnerRepository petOwnerRepository;
@@ -36,63 +41,56 @@ public class PetOwnerController {
   @Autowired
   PetOwnerMapper petOwnerMapper;
 
-
   @GetMapping("/petOwners")
-  public List<PetOwnerDto> getAll() {
+  public List<PetOwnerDto> getAll()
+  {
 
     return StreamSupport.stream(petOwnerRepository.findAll().spliterator(), false)
         .map(petOwnerMapper::toPetOwnerDto).collect(Collectors.toList());
 
   }
 
-
-
   @GetMapping("/petOwners/{id}")
-  public PetOwnerDto getById(@PathVariable Long id) {
+  public PetOwnerDto getById(@PathVariable Long id)
+  {
     Optional<PetOwner> dt = petOwnerRepository.findById(id);
-    
-    if(dt.isPresent()) {
+
+    if (dt.isPresent())
+    {
       return petOwnerMapper.toPetOwnerDto(dt.get());
     }
     return null;
   }
 
   @PostMapping("/petOwners")
-  public ResponseEntity<PetOwnerDto> createPetOwner(@RequestBody PetOwnerDto petOwner)
-      throws URISyntaxException {
-    log.debug("REST request to save PetOwner : {}", petOwner);
-    if (petOwner.getId() != null) {
-      throw new BadRequestAlertException("A new PetOwner cannot already have an ID", "Veterinarian",
-          "idexists");
-    }
+  public ResponseEntity<PetOwnerDto> createPetOwner(@Valid @RequestBody PetOwnerDto petOwner)
+      throws URISyntaxException
+  {
     PetOwner result = petOwnerRepository.save(petOwnerMapper.toPetOwner(petOwner));
-    return ResponseEntity
-        .created(new URI("/petOwners/" + result.getId())).headers(HeaderUtil
-            .createEntityCreationAlert("vsp", false, "PetOwner", result.getId().toString()))
-        .body(petOwnerMapper.toPetOwnerDto(result));
+
+    return new ResponseEntity<>(petOwnerMapper.toPetOwnerDto(result), Utils.headers(), HttpStatus.CREATED);
   }
 
   @PutMapping("/petOwners/{id}")
   public ResponseEntity<PetOwner> updatePetOwner(@RequestBody PetOwner petOwner,
-      @PathVariable Long id) throws URISyntaxException {
-    log.debug("REST request to update PetOwner : {}", petOwner);
-    if (petOwner.getId() == null) {
-      throw new BadRequestAlertException("Invalid id", "PetOwner", "idnull");
-    }
-    PetOwner result = petOwnerRepository.save(petOwner);
-    return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert("vsp", false,
-        "Veterinarian", petOwner.getId().toString())).body(result);
+      @PathVariable Long id) throws URISyntaxException
+  {
+    PetOwner result = petOwnerRepository.loadEntityById(id);
+    result = petOwnerRepository.save(petOwner);
+
+    return new ResponseEntity<>(result, Utils.headers(), HttpStatus.OK);
+
   }
 
   @DeleteMapping("/petOwners/{id}")
   public ResponseEntity<PetOwner> deleteVeternarian(@PathVariable Long id)
-      throws URISyntaxException {
+      throws URISyntaxException
+  {
+    PetOwner owner = petOwnerRepository.loadEntityById(id);
 
-    petOwnerRepository.deleteById(id);
+    petOwnerRepository.deleteById(owner.getId());
 
-    return ResponseEntity.noContent()
-        .headers(HeaderUtil.createEntityDeletionAlert("vsp", false, "PetOwner", id.toString()))
-        .build();
+    return new ResponseEntity<>(null, Utils.headers(), HttpStatus.OK);
   }
 
 }
