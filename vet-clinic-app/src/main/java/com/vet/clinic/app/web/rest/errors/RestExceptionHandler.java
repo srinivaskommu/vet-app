@@ -18,7 +18,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import com.vet.clinic.app.web.rest.common.Utils;
 import com.vet.clinic.app.web.security.jwt.InvalidJwtAuthenticationException;
@@ -34,10 +33,10 @@ public class RestExceptionHandler
   @ResponseBody
   public ResponseEntity<?> entityNotFoundException(EntityNotFoundException ex)
   {
-    ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(),ex.getLocalizedMessage());
+    ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), ex.getLocalizedMessage());
     return new ResponseEntity<Object>(apiError, Utils.headers(), apiError.getStatus());
   }
-  
+
   @ExceptionHandler(value = { NoSuchElementException.class })
   @ResponseBody
   public ResponseEntity<?> notfound(EntityNotFoundException ex)
@@ -52,10 +51,11 @@ public class RestExceptionHandler
   {
     List<String> errors = new ArrayList<String>();
 
-    for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
-        errors.add(fieldError.getObjectName() + fieldError.getField() + " " + fieldError.getDefaultMessage());
+    for (FieldError fieldError : ex.getBindingResult().getFieldErrors())
+    {
+      errors.add(fieldError.getObjectName() + fieldError.getField() + " " + fieldError.getDefaultMessage());
     }
-    
+
     ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
     return new ResponseEntity<Object>(apiError, Utils.headers(), apiError.getStatus());
   }
@@ -104,7 +104,7 @@ public class RestExceptionHandler
 
   @ExceptionHandler(Throwable.class)
   @ResponseBody
-  public ResponseEntity<?> handleAllExceptions( Throwable throwable)
+  public ResponseEntity<?> handleAllExceptions(Throwable throwable)
       throws IOException
   {
     log.error(" generic error.some thing terrible happend...",

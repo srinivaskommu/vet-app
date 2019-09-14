@@ -39,14 +39,7 @@ public class VspSortFilter
     SortDirection sortDirection;
     String fieldName;
 
-    /**
-     * Constructor.
-     * 
-     * @param fieldName
-     *          - sortField
-     * @param sortDirection
-     *          - sortDirection
-     */
+
     public SortOrder(String fieldName, SortDirection sortDirection)
     {
       this.fieldName = fieldName;
@@ -74,8 +67,7 @@ public class VspSortFilter
   {
     return this.sortOrder;
   }
-  
-  
+
   public static VspSortFilter toSortFilter(String sortField, String sortDir)
   {
     VspSortFilter sortFilter = new VspSortFilter();

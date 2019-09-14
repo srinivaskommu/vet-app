@@ -12,25 +12,15 @@ import javax.validation.constraints.Email;
 import com.vet.clinic.app.domain.common.BaseEntity;
 import com.vet.clinic.app.domain.common.BaseEntityListener;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @EntityListeners({ BaseEntityListener.class })
 @Entity
+@NoArgsConstructor
 public class PetOwner extends BaseEntity
 {
-  public PetOwner(){
-    
-  }
 
-
-  @Override
-  public String toString() {
-    return "PetOwner []";
-  }
-
-  /**
-   * 
-   */
   private static final long serialVersionUID = 5408569517994534460L;
 
 

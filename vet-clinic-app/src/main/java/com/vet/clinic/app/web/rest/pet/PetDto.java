@@ -9,19 +9,13 @@ import com.vet.clinic.app.web.rest.common.BaseDto;
 import lombok.Getter;
 import lombok.Setter;
 
-
-public class PetDto extends BaseDto {
-
-
-  public PetDto(){
-    
-  }
+public class PetDto extends BaseDto
+{
 
   /**
    * 
    */
   private static final long serialVersionUID = -4585684365380781274L;
-
 
   @Getter
   @Setter
@@ -41,7 +35,5 @@ public class PetDto extends BaseDto {
   @Setter
   @NotNull
   private Integer age;
-
-
 
 }

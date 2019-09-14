@@ -11,17 +11,15 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-
-
 @Documented
-@Target({ANNOTATION_TYPE, TYPE})
+@Target({ ANNOTATION_TYPE, TYPE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = AppointmentScheduleValidator.class)
-public @interface ValidAppointmentSchedule {
+public @interface ValidAppointmentSchedule
+{
 
   String message() default "schedule wrong";
 
-  /** validation error code. */
   int errorCode() default 4000;
 
   Class<?>[] groups() default {};

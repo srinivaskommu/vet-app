@@ -7,14 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.vet.clinic.app.domain.pet.Pet;
-import com.vet.clinic.app.domain.pet.PetOwner;
-import com.vet.clinic.app.domain.pet.PetOwnerRepository;
-import com.vet.clinic.app.domain.pet.Species;
 import com.vet.clinic.app.domain.user.User;
 import com.vet.clinic.app.domain.user.UserRepository;
-import com.vet.clinic.app.domain.veterinarian.Veterinarian;
-import com.vet.clinic.app.domain.veterinarian.VeterinarianRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

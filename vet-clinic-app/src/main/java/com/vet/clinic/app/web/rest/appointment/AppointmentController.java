@@ -51,11 +51,10 @@ public class AppointmentController
 
   @Autowired
   private AppointmentService appointmentService;
-  
+
   @Autowired
   AppointmentSearchRepository appointmentSearchRepository;
 
-  
   @Autowired
   AppointmentMapper appointmentMapper;
 
