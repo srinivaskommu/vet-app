@@ -1,31 +1,31 @@
-# spring:
-#   datasource:
-#     url: jdbc:postgresql://localhost:5432/testdb
-#     username: postgres
-#     password: password
-#     cachePrepStmts: true
-#     prepStmtCacheSize: 250
-#     prepStmtCacheSqlLimit: 2048
-#     useServerPrepStmts: true
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/vetdb
+    username: postgres
+    password: password
+    cachePrepStmts: true
+    prepStmtCacheSize: 250
+    prepStmtCacheSqlLimit: 2048
+    useServerPrepStmts: true
 
-#   jpa:
-#     openInView: false
-#     show_sql: true
-#     generate-ddl: true
-#     hibernate:
-#       ddl-auto: create-drop
-#     properties:
-#       # fixes Caused by: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
-#       hibernate.jdbc.lob.non_contextual_creation: true
+  jpa:
+    openInView: false
+    show_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      # fixes Caused by: java.sql.SQLFeatureNotSupportedException: Method org.postgresql.jdbc.PgConnection.createClob() is not yet implemented.
+      hibernate.jdbc.lob.non_contextual_creation: true
 
-#   data:
-#     jpa:
-#       repositories.enabled: true
+  data:
+    jpa:
+      repositories.enabled: true
 
-# logging:
-#   level:
-#     org.springframework.web: INFO
-#     org.springframework.security: DEBUG
-#     com.vet.clinic.app: DEBUG
-#   file: vetappserver.log
+logging:
+  level:
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+    com.vet.clinic.app: DEBUG
+  file: vetappserver.log
   

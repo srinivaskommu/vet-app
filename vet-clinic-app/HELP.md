@@ -1,6 +1,24 @@
 # Getting Started
 
-### Reference Documentation
+### Steps
+
+In the project directory, you can run:
+
+make sure you have docker installed, [docker-compose.yml] in the project directory for reference.
+### `docker-compse up -d`
+
+### `./mvnw spring-boot:run`
+
+Runs the application on port 8080.<br>
+For Health Check Open [http://localhost:8080/vsp/health](http://localhost:8080/vsp/health) to view it in the browser or curl.
+
+All API request samples [postman collection] ( https://www.getpostman.com/collections/1acc6a6c064bf6343022)
+
+
+
+
+
+### Reference Documentation for tech stack
 For further reference, please consider the following sections:
 
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)

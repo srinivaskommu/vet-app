@@ -2,15 +2,15 @@ version: '3.3' # specify docker-compose version
 
 services:
       
-  testdb:
-    container_name:  testdb
+  vetdb:
+    container_name:  vetdb
     image: postgres
     ports:
       - "5432:5432"
     restart: always
     environment:
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: testdb
+      POSTGRES_DB: vetdb
     volumes:
       - ./data/postdb:/var/lib/postgresql
 
