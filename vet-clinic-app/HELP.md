@@ -4,7 +4,7 @@
 
 In the project directory, you can run:
 
-make sure you have docker installed, [docker-compose.yml] in the project directory for reference.
+make sure you have docker installed, [docker-compose.yml](https://github.com/srinivaskommu/vet-app/blob/master/vet-clinic-app/docker-compose.yml) in the project directory for reference.
 ### `docker-compse up -d`
 
 ### `./mvnw spring-boot:run`
