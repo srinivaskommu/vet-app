@@ -19,6 +19,12 @@ class HomePage extends React.Component {
             user: JSON.parse(localStorage.getItem('user')),
             users: { loading: true }
         });
+        if(localStorage.getItem('apiToken')){
+            console.log(localStorage.getItem('apiToken'));
+        }else{
+            localStorage.clear();
+            this.props.history.push('/login');
+        }
         userService.getAll().then(users => this.setState({ users }));
     }
 
