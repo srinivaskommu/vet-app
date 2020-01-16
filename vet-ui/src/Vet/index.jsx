@@ -34,7 +34,6 @@ class Vet extends Component {
           })
        .then((res) => {
            this.resetData();
-           //alert("Vet Successfully added ");
        });
     
     }
